@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
+
 
 
 # Create your models here.
@@ -44,9 +46,12 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag,blank=True,null=True,related_name='posts')
 
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         ordering = ['-created_at']
 
 
     def get_absolute_url(self):
-        return reverse('post:detail')
+        return reverse('post',kwargs={'slug':self.slug})
